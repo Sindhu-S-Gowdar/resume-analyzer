@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
 
 function App() {
+  const [resume, setResume] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+
+  const handleSubmit = () => {
+    console.log("Resume: ", resume);
+    console.log("JD:", jobDescription);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Resume Analyzer</h1>
+
+      <textarea
+        placeholder="Paste your resume text here..."
+        value={resume}
+        onChange={(e) => setResume(e.target.value)}
+        rows={10}
+        cols={50}
+      ></textarea>
+
+      <textarea
+        placeholder="Paste your job description here..."
+        value={jobDescription}
+        onChange={(e) => setJobDescription(e.target.value)}
+        rows={10}
+        cols={50}
+      ></textarea>
+
+      <button onClick={handleSubmit}>Analyze</button>
     </div>
   );
 }
