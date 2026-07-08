@@ -5,9 +5,18 @@ function App() {
   const [resume, setResume] = useState("");
   const [jobDescription, setJobDescription] = useState("");
 
-  const handleSubmit = () => {
-    console.log("Resume: ", resume);
-    console.log("JD:", jobDescription);
+  const handleSubmit = async () => {
+    const response = await fetch("http://localhost:3001/analyze", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ resume, jobDescription })
+    });
+
+    const data = await response.json();
+    console.log(data);
+        
   };
 
   return (
