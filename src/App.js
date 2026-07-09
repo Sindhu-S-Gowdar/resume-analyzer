@@ -4,6 +4,7 @@ import "./App.css";
 function App() {
   const [resume, setResume] = useState("");
   const [jobDescription, setJobDescription] = useState("");
+  const [result, setResult] = useState('');
 
   const handleSubmit = async () => {
     const response = await fetch("http://localhost:3001/analyze", {
@@ -15,7 +16,8 @@ function App() {
     });
 
     const data = await response.json();
-    console.log(data);
+    const text = data.choices[0].message.content;
+    setResult(text);
         
   };
 
@@ -40,6 +42,12 @@ function App() {
       ></textarea>
 
       <button onClick={handleSubmit}>Analyze</button>
+      {result && (
+        <div style={{ marginTop: '20px', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', textAlign: 'left', whiteSpace: 'pre-wrap'}}>
+          <h2>Analysis Result: </h2>
+          <p>{result}</p>
+          </div>
+      )}
     </div>
   );
 }
