@@ -4,57 +4,65 @@ import "./App.css";
 function App() {
   const [resume, setResume] = useState("");
   const [jobDescription, setJobDescription] = useState("");
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     setLoading(true);
-    setResult('');
+    setResult("");
 
     const response = await fetch("http://localhost:3001/analyze", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ resume, jobDescription })
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ resume, jobDescription }),
     });
 
     const data = await response.json();
     const text = data.choices[0].message.content;
     setResult(text);
     setLoading(false);
-        
   };
 
   return (
-    <div className="App">
-      <h1>Resume Analyzer</h1>
+    <div className="app">
+      <div className="header">
+        <h1>Resume Analyzer</h1>
+        <p>
+          Paste your resume and a job description to get instant AI feedback
+        </p>
+      </div>
 
-      <textarea
-        placeholder="Paste your resume text here..."
-        value={resume}
-        onChange={(e) => setResume(e.target.value)}
-        rows={10}
-        cols={50}
-      ></textarea>
+      <div className="input-section">
+        <div className="input-box">
+          <label>Your Resume</label>
+          <textarea
+            placeholder="Paste your resume text here..."
+            value={resume}
+            onChange={(e) => setResume(e.target.value)}
+          ></textarea>
+        </div>
 
-      <textarea
-        placeholder="Paste your job description here..."
-        value={jobDescription}
-        onChange={(e) => setJobDescription(e.target.value)}
-        rows={10}
-        cols={50}
-      ></textarea>
+        <div className="input-box">
+          <label>Job Description</label>
+          <textarea
+            placeholder="Paste your job description here..."
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
+          ></textarea>
+        </div>
+      </div>
 
-      <button onClick={handleSubmit} disabled={loading}>
-        {loading? 'Analyzing...' : 'Analyze'}
+      <button className="analyze-btn" onClick={handleSubmit} disabled={loading}>
+        {loading ? "Analyzing..." : "Analyze My Resume"}
       </button>
 
       {result && (
-        <div style={{ marginTop: '20px', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', textAlign: 'left', whiteSpace: 'pre-wrap'}}>
+        <div className="result-section">
           <h2>Analysis Result: </h2>
-          <p>{result}</p>
-          </div>
+          <p className="result-text">{result}</p>
+        </div>
       )}
     </div>
   );
